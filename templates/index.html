@@ -71,5 +71,41 @@
             }
         }
     </script>
+    <py-script>
+      import yt_dlp
+
+def download_video(url, audio_only=False):
+    ydl_opts = {}
+    
+    if audio_only:
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+        }
+    else:
+        ydl_opts = {'format': 'best'}
+    
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+
+def main():
+    url = input("Enter the YouTube video URL: ")
+
+    choice = input("Download (1) Video or (2) Audio only? Enter 1 or 2: ")
+
+    if choice == '1':
+        download_video(url)
+    elif choice == '2':
+        download_video(url, audio_only=True)
+    else:
+        print("Invalid choice, exiting.")
+
+if _name_ == "_main_":
+    main()
+    </py-script>
 </body>
 </html>
